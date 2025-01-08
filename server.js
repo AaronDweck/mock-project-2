@@ -27,13 +27,11 @@ app.delete('/pokemon/:pokemonName', async (req, res) => {
     res.send(pokemonName)
 });
 
-app.put('/pokemon/:pokemonName/:property/:value', (req, res) => {
+app.put('/pokemon/:pokemonName/:property/:value', async (req, res) => {
     const pokemonName = req.params.pokemonName
     const pokemonProperty = req.params.property
     const propertyValue = Number(req.params.value)
-    const pokemonObj = pokemon.find( pokemon => pokemon.name.toLowerCase() === pokemonName.toLowerCase())
-
-    pokemonObj[pokemonProperty] = propertyValue
+    const pokemonObj = await Pokemon.updateOne({'name': pokemonName},{[pokemonProperty]: propertyValue})
 
     res.send(pokemonObj)
 })
