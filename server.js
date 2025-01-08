@@ -21,13 +21,10 @@ app.post('/pokemon', async (req, res) => {
     res.status(201).send(newPokemon)
 });
 
-app.delete('/pokemon/:pokemonName', (req, res) => {
-    const pokemonName = req.params.pokemonName
-    const index = pokemon.findIndex(pokemon => pokemon.name.toLowerCase() === pokemonName.toLowerCase())
-    if (index !== -1) {
-        pokemon.splice(index, 1);
-    }
-    res.send('deleted')
+app.delete('/pokemon/:pokemonName', async (req, res) => {
+    const pokemonName = await Pokemon.deleteOne({'name': req.params.pokemonName})
+    
+    res.send(pokemonName)
 });
 
 app.put('/pokemon/:pokemonName/:property/:value', (req, res) => {
