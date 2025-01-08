@@ -10,9 +10,10 @@ app.get('/', (req, res) => {
     res.send('Home')
 });
 
-app.get('/pokemon/:pokemonName', (req, res) => {
-    const pokemonName = req.params.pokemonName
-    res.send(pokemon.find( pokemon => pokemon.name.toLowerCase() === pokemonName.toLowerCase()))
+app.get('/pokemon/:pokemonName', async (req, res) => {
+    const pokemonName = await Pokemon.findOne({'name': req.params.pokemonName})
+    
+    res.send(pokemonName)
 })
 
 app.post('/pokemon', async (req, res) => {
