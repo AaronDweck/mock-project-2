@@ -1,5 +1,7 @@
 import express from 'express'
 import pokemon from './data.js'
+import mongoose from 'mongoose'
+import Pokemon from './models/pokemon.js'
 
 const app = express()
 app.use(express.json())
@@ -13,9 +15,8 @@ app.get('/pokemon/:pokemonName', (req, res) => {
     res.send(pokemon.find( pokemon => pokemon.name.toLowerCase() === pokemonName.toLowerCase()))
 })
 
-app.post('/pokemon', (req, res) => {
-    const newPokemon = req.body
-    pokemon.push(newPokemon)
+app.post('/pokemon', async (req, res) => {
+    const newPokemon = await Pokemon.create(req.body)
     res.status(201).send(newPokemon)
 });
 
@@ -42,3 +43,7 @@ app.put('/pokemon/:pokemonName/:property/:value', (req, res) => {
 app.listen(3000, () => {
     console.log('Listening on port 3000')
 })
+
+const url = 'mongodb://127.0.0.1:27017/'
+const dbname = 'pokemon-db'
+mongoose.connect(url + dbname)
