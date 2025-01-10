@@ -3,12 +3,15 @@ import express from 'express'
 import mongoose from 'mongoose'
 // import Pokemon from './models/pokemon.js'
 import pokemonController from './controllers/pokemonController.js'
+import errorHandler from './middleware/errorHandler.js'
 
 const app = express()
 
 app.use(express.json())
 
 app.use('/', pokemonController)
+
+app.use(errorHandler)
 
 app.listen(3000, () => {
     console.log('Listening on port 3000')
