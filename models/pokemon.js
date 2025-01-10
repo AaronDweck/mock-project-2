@@ -15,9 +15,7 @@ const pokemonSchema = new mongoose.Schema({
         required: true,
         validate: {
             validator: function (value) {
-                console.log('test:',value)
-                // Ensure the string does not represent a number
-                return isNaN(value);
+                return isNaN(value)
             },
             message: (props) => `${props.value} is not a valid type. It cannot be a number.`
         }

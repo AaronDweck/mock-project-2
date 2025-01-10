@@ -3,6 +3,15 @@ import Pokemon from '../models/pokemon.js'
 
 const router = express.Router()
 
+// Get the home page
+router.route('/').get(async (req, res) => {
+    try{
+        res.render('home.ejs')
+    } catch (e) {
+        console.log(e)
+    }
+})
+
 // Add a new pokemon to the DB
 router.route('/pokemon').post(async (req, res) => {
     try {
@@ -19,13 +28,23 @@ router.route('/pokemon').post(async (req, res) => {
     }
 })
 
+router.route('/pokemon').get( async (req, res) => {
+    const allPokemon = await Pokemon.find().sort({ number: 1})
+
+    res.render('pokemon/index.ejs', {
+        allPokemon: allPokemon
+    })
+})
+
 // Get a Pokemon by its name
 router.route('/pokemon/:pokemonName').get(async (req, res) => {
-    const pokemonName = await Pokemon.findOne({ 'name': req.params.pokemonName })
-    if (!pokemonName) {
+    const pokemonByName = await Pokemon.findOne({ 'name': req.params.pokemonName })
+    if (!pokemonByName) {
         res.send({ message: "that is an invalid request" })
     } else {
-        res.send(pokemonName)
+        res.render('pokemon/show.ejs',{
+            pokemon: pokemonByName
+        })
     }
 })
 
