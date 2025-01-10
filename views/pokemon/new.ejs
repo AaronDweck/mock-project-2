@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Pokemon</title>
+</head>
+
+<body>
+    <h1>Create a new Pokemon</h1>
+    <form action="/pokemon" method="post">
+        <label for="number">Number:</label>
+        <input type="text" name="number">
+        <label for="name">Name:</label>
+        <input type="text" name="name">
+        <label for="type">Type:</label>
+        <select name="type" id="type">
+            <option value="grass">Grass</option>
+            <option value="fire">Fire</option>
+            <option value="water">Water</option>
+            <option value="bug">Bug</option>
+            <option value="normal">Normal</option>
+            <option value="poison">Poison</option>
+            <option value="electric">Electric</option>
+            <option value="ground">Ground</option>
+            <option value="fairy">Fairy</option>
+            <option value="fighting">Fighting</option>
+            <option value="psychic">Psychic</option>
+            <option value="rock">Rock</option>
+            <option value="ghost">Ghost</option>
+            <option value="ice">Ice</option>
+            <option value="dragon">Dragon</option>
+        </select>
+        <label for="hp">Hp:</label>
+        <input type="number" name="hp">
+        <label for="starter">Starter:</label>
+        <input type="checkbox" name="starter">
+        <button type="submit">Create Pokemon</button>
+    </form>
+</body>
+
+</html>

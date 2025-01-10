@@ -4,10 +4,13 @@ import mongoose from 'mongoose'
 // import Pokemon from './models/pokemon.js'
 import pokemonController from './controllers/pokemonController.js'
 import errorHandler from './middleware/errorHandler.js'
+import methodOverride from 'method-override'
 
 const app = express()
 
 app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use(methodOverride('_method'))
 
 app.use('/', pokemonController)
 

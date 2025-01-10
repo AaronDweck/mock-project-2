@@ -12,6 +12,7 @@ router.route('/').get(async (req, res, next) => {
     }
 })
 
+//  todo fix this so the route handles the starter value from the checkbox 
 // Add a new pokemon to the DB
 router.route('/pokemon').post(async (req, res, next) => {
     try {
@@ -30,6 +31,14 @@ router.route('/pokemon').get( async (req, res, next) => {
             allPokemon: allPokemon
         })
     } catch (err){
+        next(err)
+    }
+})
+
+router.route('/pokemon/new').get( async (req, res, next) => {
+    try {
+        res.render('pokemon/new.ejs')
+    } catch (err) {
         next(err)
     }
 })
