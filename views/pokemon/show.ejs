@@ -5,8 +5,8 @@
     <p>Type: <%= pokemon.type %></p>
     <p>Hp: <%= pokemon.hp %></p>
     <p>Starter: <%= pokemon.starter %></p>
-    <a href="">
-        <button>Delete</button>
-    </a>
+    <form action="/pokemon/<%=pokemon.name%>?_method=DELETE" method="POST">
+        <button type="submit">Delete</button>
+    </form>
 </body>
 </html>

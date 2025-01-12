@@ -84,7 +84,7 @@ router.route('/pokemon/:pokemonName').delete(async (req, res, next) => {
     try {
         const pokemonName = await Pokemon.deleteOne({ 'name': req.params.pokemonName })
     
-        res.send(pokemonName)
+        res.redirect('/pokemon')
     } catch (err) {
         next(err)
     }
