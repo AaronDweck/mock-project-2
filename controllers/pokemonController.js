@@ -16,8 +16,13 @@ router.route('/').get(async (req, res, next) => {
 // Add a new pokemon to the DB
 router.route('/pokemon').post(async (req, res, next) => {
     try {
+        if (req.body.starter === "on") {
+            req.body.starter = true;
+          } else {
+            req.body.starter = false;
+          }
         const newPokemon = await Pokemon.create(req.body)
-        res.status(201).send(newPokemon)
+        res.status(201).redirect('/pokemon')
     } catch (err) {
         next(err)
     }
