@@ -64,16 +64,34 @@ router.route('/pokemon/:pokemonName').get(async (req, res, next) => {
     }
 })
 
-// Update a Pokemon by its name
-router.route('/pokemon/:pokemonName/:property/:value').put(async (req, res, next) => {
+// Get a Pokemon by its name
+router.route('/pokemon/:pokemonName/update').get(async (req, res, next) => {
     try {
-        const pokemonName = req.params.pokemonName
-        const pokemonProperty = req.params.property
-        let propertyValue = req.params.value
+        const pokemonByName = await Pokemon.findOne({ 'name': req.params.pokemonName })
+        if (!pokemonByName) {
+            res.send({ message: "that is an invalid request" })
+        } else {
+            res.render('pokemon/update.ejs',{
+                pokemon: pokemonByName
+            })
+        }
+    } catch (err) {
+        next(err)
+    }
+})
 
-        const pokemonObj = await Pokemon.updateOne({ 'name': pokemonName }, {[pokemonProperty]: propertyValue}, {runValidators: true})
+// Update a Pokemon by its name
+router.route('/pokemon/:pokemonName/update').put(async (req, res, next) => {
+    try {
+        if (req.body.starter === "on") {
+            req.body.starter = true;
+          } else {
+            req.body.starter = false;
+          }
+        const pokemonName = req.params.pokemonName
+        const pokemonObj = await Pokemon.updateOne({ 'name': pokemonName }, req.body, {runValidators: true})
     
-        res.send(pokemonObj)
+        res.redirect(`/pokemon/${req.body.name}`)
     } catch (err){
         next(err)
     }

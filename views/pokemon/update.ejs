@@ -1,0 +1,22 @@
+<%- include('../partials/html-head') %>
+<%- include('../partials/nav') %>
+    <form action="/pokemon/<%=pokemon.name%>/update?_method=PUT" method="post">
+        <label for="number">Number:</label>
+        <input type="text" name="number" value="<%= pokemon.number %>">
+        <label for="name">Name:</label>
+        <input type="text" name="name" value="<%= pokemon.name %>">
+        <label for="type">Type:</label>
+        <select name="type" id="type" value="<%= pokemon.type %>">
+            <% const types = ["grass", "fire", "water", "bug", "normal", "poison", "electric", "ground", "fairy", "fighting", "psychic", "rock", "ghost", "ice", "dragon"]%>
+            <%types.forEach(type => {%>
+                <option value="<%=type%>" <%=pokemon.type === type ? 'selected':''%>><%=type%></option>
+            <% });%>
+        </select>
+        <label for="hp">Hp:</label>
+        <input type="number" name="hp" value="<%= pokemon.hp %>">
+        <label for="starter">Starter:</label>
+        <input type="checkbox" name="starter" <%= pokemon.starter ? 'checked':''  %>>
+        <button type="submit">Update</button>
+    </form>
+</body>
+</html>
