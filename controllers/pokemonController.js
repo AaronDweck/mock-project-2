@@ -12,7 +12,6 @@ router.route('/').get(async (req, res, next) => {
     }
 })
 
-//  todo fix this so the route handles the starter value from the checkbox 
 // Add a new pokemon to the DB
 router.route('/pokemon').post(async (req, res, next) => {
     try {
@@ -22,7 +21,7 @@ router.route('/pokemon').post(async (req, res, next) => {
             req.body.starter = false;
           }
         const newPokemon = await Pokemon.create(req.body)
-        res.status(201).redirect('/pokemon')
+        res.status(201).redirect(`/pokemon/${req.body.name}`)
     } catch (err) {
         next(err)
     }
