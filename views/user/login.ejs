@@ -2,6 +2,12 @@
 <%- include('../partials/nav') %>
 
     <h1>Login Page</h1>
-    <a href="/user/signup"> <button>Sign Up</button></a>
+    <form action="/user/login" method="post">
+        <label for="username">Username:</label>
+        <input type="text" name="username">
+        <label for="password">Password:</label>
+        <input type="password" name="password">
+        <button type="submit">Enter</button>
+    </form>
 </body>
 </html>

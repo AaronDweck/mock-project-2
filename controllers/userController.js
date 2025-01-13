@@ -6,8 +6,21 @@ const router = express.Router()
 router.route('/user/signup').post(async (req, res, next) => {
     try{
        const newUser = await User.create(req.body)
-       res.redirect('/user/signup')
+       res.redirect('/user/login')
     } catch (err) {
+        next(err)
+    }
+})
+
+router.route('/user/login').post(async (req, res, next) => {
+    try {
+        const user = await User.findOne({username: req.body.username})
+        if (user.isPasswordValid(req.body.password)){
+            res.send({message: 'Login successful'})
+        } else {
+            res.send({message: 'Incorrect login'})
+        }
+    } catch (err){
         next(err)
     }
 })
