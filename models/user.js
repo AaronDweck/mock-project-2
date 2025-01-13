@@ -15,8 +15,9 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
-    },
+        required: true,
+        match: [/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/, 'password needs 1 uppercase, 1 lowercase, 1 number, 1 symbol and 8 characters long.']
+    }
 })
 
 userSchema.plugin(uniqueValidator);

@@ -8,7 +8,13 @@ const pokemonSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        validate: {
+            validator: function (value) {
+                return isNaN(value)
+            },
+            message: (props) => `${props.value} is not a valid name. It cannot be a number.`
+        }
     },
     type: {
         type: String,

@@ -5,8 +5,12 @@ const router = express.Router()
 
 router.route('/user/signup').post(async (req, res, next) => {
     try{
-       const newUser = await User.create(req.body)
-       res.redirect('/user/login')
+        if (req.body.password === req.body.passwordConfirmation){
+            const newUser = await User.create(req.body)
+            res.redirect('/user/login')
+        } else {
+            res.send({message: 'Passwords do not match'})
+        }
     } catch (err) {
         next(err)
     }

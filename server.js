@@ -6,6 +6,7 @@ import errorHandler from './middleware/errorHandler.js'
 import methodOverride from 'method-override'
 import path from 'path'
 import { fileURLToPath } from "url";
+import mongoSanitize from 'express-mongo-sanitize'
 
 
 const app = express()
@@ -23,6 +24,12 @@ console.log(__dirname)
 
 
 // app.use(express.static(path.join(__dirname, "public")))
+
+app.use(
+    mongoSanitize({
+        replaceWith: '_',
+    }),
+);
 
 app.use('/', pokemonController)
 app.use('/', userController)

@@ -10,7 +10,7 @@ async function seed() {
     await User.create({
         username: 'AaronDweck',
         email: 'aarondweck24@gmail.com',
-        password: 'password'
+        password: 'Password1!'
     })
     await mongoose.disconnect()
 }
