@@ -1,10 +1,12 @@
 import express from 'express'
-// import pokemon from './data.js'
 import mongoose from 'mongoose'
-// import Pokemon from './models/pokemon.js'
 import pokemonController from './controllers/pokemonController.js'
+import userController from './controllers/userController.js'
 import errorHandler from './middleware/errorHandler.js'
 import methodOverride from 'method-override'
+// const path = require("path");
+
+
 
 const app = express()
 
@@ -12,7 +14,10 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(methodOverride('_method'))
 
+// app.use(express.static(path.join(__dirname, "public")))
+
 app.use('/', pokemonController)
+app.use('/', userController)
 
 app.use(errorHandler)
 
