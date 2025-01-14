@@ -1,6 +1,5 @@
 <%- include('../partials/html-head') %>
-<%- include('../partials/nav') %>
-
+<%- include('../partials/nav', {loggedIn: loggedIn}) %>
     <h1>Sign Up Page</h1>
     <form action="/user/signup" method="post">
         <label for="username">Username:</label>

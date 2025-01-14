@@ -1,5 +1,5 @@
 <%- include('../partials/html-head') %>
-<%- include('../partials/nav') %>
+<%- include('../partials/nav', {loggedIn: loggedIn}) %>
     <h1>Create a new Pokemon</h1>
     <form action="/pokemon" method="post">
         <label for="number">Number:</label>

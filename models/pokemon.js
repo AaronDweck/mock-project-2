@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const pokemonSchema = new mongoose.Schema({
     number: {
-        type: Number, 
+        type: Number,
         required: true
     },
     name: {
@@ -25,7 +25,6 @@ const pokemonSchema = new mongoose.Schema({
             },
             message: (props) => `${props.value} is not a valid type. It cannot be a number.`
         }
-        
     },
     hp: {
         type: Number,

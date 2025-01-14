@@ -1,8 +1,11 @@
 <nav>
-    <a href="/">Home</a>
-    <a href="/pokemon">Pokemon</a>
-    <a href="/pokemon/new">Create Pokemon</a>
+  <a href="/">Home</a>
+  <a href="/pokemon">Pokemon</a>
+  <% if (loggedIn) {%>
+  <a href="/pokemon/new">Create Pokemon</a>
+  <% } %>
+  <% if (!loggedIn) {%>
     <a href="/user/login">Login</a>
     <a href="/user/signup">Signup</a>
-  </nav>
-  
+  <% } %>
+</nav>
