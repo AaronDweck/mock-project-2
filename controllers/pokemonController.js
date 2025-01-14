@@ -26,6 +26,9 @@ router.route('/pokemon').post(async (req, res, next) => {
         } else {
             req.body.starter = false;
         }
+
+        req.body.user = req.session.user
+
         const newPokemon = await Pokemon.create(req.body)
         res.status(201).redirect(`/pokemon/${req.body.name}`)
     } catch (err) {

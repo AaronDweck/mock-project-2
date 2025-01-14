@@ -3,7 +3,9 @@ import mongoose from 'mongoose'
 const pokemonSchema = new mongoose.Schema({
     number: {
         type: Number,
-        required: true
+        required: true,
+        unique: true,
+        cast: 'Please enter a valid number.'
     },
     name: {
         type: String,
@@ -13,7 +15,7 @@ const pokemonSchema = new mongoose.Schema({
             validator: function (value) {
                 return isNaN(value)
             },
-            message: (props) => `${props.value} is not a valid name. It cannot be a number.`
+            message: 'Please enter a valid name.'
         }
     },
     type: {
@@ -23,12 +25,13 @@ const pokemonSchema = new mongoose.Schema({
             validator: function (value) {
                 return isNaN(value)
             },
-            message: (props) => `${props.value} is not a valid type. It cannot be a number.`
+            message: 'Please enter a valid type.'
         }
     },
     hp: {
         type: Number,
-        required: true
+        required: true,
+        cast: 'Please enter a valid number.'
     },
     starter: {
         type: Boolean,
