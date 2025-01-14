@@ -6,12 +6,13 @@ import User from "../models/user.js";
 async function seed() {
     await mongoose.connect('mongodb://127.0.0.1:27017/pokemon-db')
     await mongoose.connection.db.dropDatabase()
-    await Pokemon.create(pokemon)
-    await User.create({
+    const user = await User.create({
         username: 'AaronDweck',
         email: 'aarondweck24@gmail.com',
         password: 'Password1!'
     })
+    pokemon.forEach(pokemon => pokemon.user = user)
+    await Pokemon.create(pokemon)
     await mongoose.disconnect()
 }
 

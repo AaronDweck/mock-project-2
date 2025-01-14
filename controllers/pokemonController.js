@@ -17,6 +17,10 @@ router.route('/').get(async (req, res, next) => {
 // Add a new pokemon to the DB
 router.route('/pokemon').post(async (req, res, next) => {
     try {
+        if (!req.session.user) {
+            return res.send({ message: 'you must be logged' })
+        }
+
         if (req.body.starter === "on") {
             req.body.starter = true;
         } else {
@@ -44,8 +48,8 @@ router.route('/pokemon').get(async (req, res, next) => {
 
 router.route('/pokemon/new').get(async (req, res, next) => {
     try {
-        if (!req.session.user){
-            return res.send({message:'you must be logged'})
+        if (!req.session.user) {
+            return res.send({ message: 'you must be logged' })
         }
         res.render('pokemon/new.ejs', {
             loggedIn: req.session.user
@@ -58,15 +62,23 @@ router.route('/pokemon/new').get(async (req, res, next) => {
 // Get a Pokemon by its name
 router.route('/pokemon/:pokemonName').get(async (req, res, next) => {
     try {
-        const pokemonByName = await Pokemon.findOne({ 'name': req.params.pokemonName })
+        const pokemonByName = await Pokemon.findOne({ 'name': req.params.pokemonName }).populate('user')
         if (!pokemonByName) {
             res.send({ message: "that is an invalid request" })
-        } else {
-            res.render('pokemon/show.ejs', {
-                pokemon: pokemonByName,
-                loggedIn: req.session.user
-            })
         }
+        let correctTrainer
+        try{
+            correctTrainer = pokemonByName.user._id.equals(req.session.user._id)
+        } catch (err){
+            correctTrainer = false
+        }
+
+        res.render('pokemon/show.ejs', {
+            pokemon: pokemonByName,
+            loggedIn: req.session.user,
+            correctTrainer: correctTrainer
+        })
+
     } catch (err) {
         next(err)
     }

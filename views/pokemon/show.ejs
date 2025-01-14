@@ -5,7 +5,8 @@
     <p>Type: <%= pokemon.type %></p>
     <p>Hp: <%= pokemon.hp %></p>
     <p>Starter: <%= pokemon.starter %></p>
-    <% if (loggedIn) {%>
+    <p>Trainer: <%= pokemon.user.username %></p>
+    <% if (correctTrainer) {%>
         <form action="/pokemon/<%=pokemon.name%>?_method=DELETE" method="POST">
             <button type="submit">Delete</button>
         </form>

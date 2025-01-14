@@ -16,7 +16,7 @@ export default function errorHandler(err, req, res, next) {
     }
     console.log(customError)
     // ! 422 -> unprocessible entity
-    res.status(422).send({ errors: customError, message: "There are issues with the data you posted." })
+    res.status(422).send({errors: customError})
     // // res.status(422).send({ message: "your request doesn't meet the correct requirements." })
     // Other
   } else {
