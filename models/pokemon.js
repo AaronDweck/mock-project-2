@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import uniqueValidator from 'mongoose-unique-validator'
 
 const pokemonSchema = new mongoose.Schema({
     number: {
@@ -43,5 +44,7 @@ const pokemonSchema = new mongoose.Schema({
         required: true
     }
 })
+
+pokemonSchema.plugin(uniqueValidator)
 
 export default mongoose.model('Pokemon', pokemonSchema)

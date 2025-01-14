@@ -18,7 +18,7 @@ router.route('/').get(async (req, res, next) => {
 router.route('/pokemon').post(async (req, res, next) => {
     try {
         if (!req.session.user) {
-            return res.send({ message: 'you must be logged' })
+            return res.send({ message: 'you must be logged in' })
         }
 
         if (req.body.starter === "on") {
@@ -52,7 +52,7 @@ router.route('/pokemon').get(async (req, res, next) => {
 router.route('/pokemon/new').get(async (req, res, next) => {
     try {
         if (!req.session.user) {
-            return res.send({ message: 'you must be logged' })
+            return res.send({ message: 'you must be logged in' })
         }
         res.render('pokemon/new.ejs', {
             loggedIn: req.session.user
@@ -90,6 +90,9 @@ router.route('/pokemon/:pokemonName').get(async (req, res, next) => {
 // Get a Pokemon by its name
 router.route('/pokemon/:pokemonName/update').get(async (req, res, next) => {
     try {
+        if (!req.session.user) {
+            return res.send({ message: 'you must be logged in' })
+        }
         const pokemonByName = await Pokemon.findOne({ 'name': req.params.pokemonName })
         if (!pokemonByName) {
             res.send({ message: "that is an invalid request" })
@@ -107,13 +110,21 @@ router.route('/pokemon/:pokemonName/update').get(async (req, res, next) => {
 // Update a Pokemon by its name
 router.route('/pokemon/:pokemonName/update').put(async (req, res, next) => {
     try {
+        if (!req.session.user) {
+            return res.send({ message: 'you must be logged in' })
+        }
+        const pokemonByName = await Pokemon.findOne({ 'name': req.params.pokemonName }).populate('user')
+        if (!pokemonByName.user._id.equals(req.session.user._id)) {
+            return res.send({ message: 'you arent authorized to make these changes' })
+        }
+
         if (req.body.starter === "on") {
             req.body.starter = true;
         } else {
             req.body.starter = false;
         }
         const pokemonName = req.params.pokemonName
-        const pokemonObj = await Pokemon.updateOne({ 'name': pokemonName }, req.body, { runValidators: true })
+        await Pokemon.updateOne({ 'name': pokemonName }, req.body, { runValidators: true })
 
         res.redirect(`/pokemon/${req.body.name}`)
     } catch (err) {
@@ -124,7 +135,15 @@ router.route('/pokemon/:pokemonName/update').put(async (req, res, next) => {
 // Delete a Pokemon by its name
 router.route('/pokemon/:pokemonName').delete(async (req, res, next) => {
     try {
-        const pokemonName = await Pokemon.deleteOne({ 'name': req.params.pokemonName })
+        if (!req.session.user) {
+            return res.send({ message: 'you must be logged in' })
+        }
+        const pokemonByName = await Pokemon.findOne({ 'name': req.params.pokemonName }).populate('user')
+        if (!pokemonByName.user._id.equals(req.session.user._id)) {
+            return res.send({ message: 'you arent authorized to make these changes' })
+        }
+        
+        await Pokemon.deleteOne({ 'name': req.params.pokemonName })
 
         res.redirect('/pokemon')
     } catch (err) {

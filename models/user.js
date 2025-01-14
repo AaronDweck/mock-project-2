@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
     }
 })
 
-userSchema.plugin(uniqueValidator);
+userSchema.plugin(uniqueValidator)
 
 userSchema.pre('save', function (next) {
     this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync())
