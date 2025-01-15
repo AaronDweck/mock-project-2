@@ -26,11 +26,22 @@ router.route('/comment/:pokemonName/:commentID').delete(async (req, res, next) =
         const commentByID = pokemonByName.comments.find(comment => {
             return comment._id.equals(req.params.commentID)
         })
-        console.log('before--------------')
-        console.log(pokemonByName.comments)
         pokemonByName.comments.splice(pokemonByName.comments.indexOf(commentByID), 1)
-        console.log('after--------------')
-        console.log(pokemonByName.comments)
+        await pokemonByName.save()
+        res.redirect(`/pokemon/${req.params.pokemonName}`)
+    } catch (err) {
+        next(err)
+    }
+})
+
+router.route('/comment/:pokemonName/:commentID').put(async (req, res, next) => {
+    try {
+        const pokemonByName = await Pokemon.findOne({ 'name': req.params.pokemonName })
+        const commentByID = pokemonByName.comments.find(comment => {
+            return comment._id.equals(req.params.commentID)
+        })
+
+        commentByID.content = req.body.content
         await pokemonByName.save()
         res.redirect(`/pokemon/${req.params.pokemonName}`)
     } catch (err) {
