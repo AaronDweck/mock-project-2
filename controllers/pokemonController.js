@@ -29,9 +29,11 @@ router.route('/pokemon').post(async (req, res, next) => {
 
         req.body.user = req.session.user
 
-        const newPokemon = await Pokemon.create(req.body)
+        await Pokemon.create(req.body)
         res.status(201).redirect(`/pokemon/${req.body.name}`)
     } catch (err) {
+        console.log('first test')
+        res.locals.page = '/pokemon/new'
         next(err)
     }
 })
@@ -65,7 +67,7 @@ router.route('/pokemon/new').get(async (req, res, next) => {
 // Get a Pokemon by its name
 router.route('/pokemon/:pokemonName').get(async (req, res, next) => {
     try {
-        const pokemonByName = await Pokemon.findOne({ 'name': req.params.pokemonName }).populate('user')
+        const pokemonByName = await Pokemon.findOne({ 'name': req.params.pokemonName }).populate('comments.user').populate('user')
         if (!pokemonByName) {
             res.send({ message: "that is an invalid request" })
         }

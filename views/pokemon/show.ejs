@@ -1,18 +1,37 @@
 <%- include('../partials/html-head') %>
 <%- include('../partials/nav', {loggedIn: loggedIn}) %>
     <h1>Name: <%= pokemon.name %></h1>
-    <p>Number: <%= pokemon.number %></p>
-    <p>Type: <%= pokemon.type %></p>
-    <p>Hp: <%= pokemon.hp %></p>
-    <p>Starter: <%= pokemon.starter %></p>
-    <p>Trainer: <%= pokemon.user.username %></p>
-    <% if (correctTrainer) {%>
-        <form action="/pokemon/<%=pokemon.name%>?_method=DELETE" method="POST">
-            <button type="submit">Delete</button>
+    <section>
+        <p>Number: <%= pokemon.number %></p>
+        <p>Type: <%= pokemon.type %></p>
+        <p>Hp: <%= pokemon.hp %></p>
+        <p>Starter: <%= pokemon.starter %></p>
+        <p>Trainer: <%= pokemon.user.username %></p>
+        <% if (correctTrainer) {%>
+            <form action="/pokemon/<%=pokemon.name%>?_method=DELETE" method="POST">
+                <button type="submit">Delete</button>
+            </form>
+            <a href="/pokemon/<%=pokemon.name%>/update">
+                <button>Update</button>
+            </a>
+        <% } %>
+    </section>
+    <section>
+        <h2>Comments</h2>
+        <div id="comment-section">
+            <% pokemon.comments.forEach(comment => { %>
+                <div>
+                    <% console.log(comment) %>
+                    <p class="comment"><%= comment.user.username %>: <%= comment.content %></p>
+                </div> 
+            <% }) %>
+        </div>
+        <form action="/pokemon/<%=pokemon.name%>/add-comment" method="post">
+            <label for="content">Add comment:</label>
+            <textarea name="content" id="comment-input"></textarea>
+            <button type="submit">Post</button>
         </form>
-        <a href="/pokemon/<%=pokemon.name%>/update">
-            <button>Update</button>
-        </a>
-    <% } %>
+    </section>
+
 </body>
 </html>

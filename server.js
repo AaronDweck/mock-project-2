@@ -2,6 +2,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import pokemonController from './controllers/pokemonController.js'
 import userController from './controllers/userController.js'
+import commentController from './controllers/commentController.js'
 import errorHandler from './middleware/errorHandler.js'
 import methodOverride from 'method-override'
 import path from 'path'
@@ -38,6 +39,7 @@ app.use(mongoSanitize({ replaceWith: '_' }))
 
 app.use('/', pokemonController)
 app.use('/', userController)
+app.use('/', commentController)
 
 app.use(errorHandler)
 

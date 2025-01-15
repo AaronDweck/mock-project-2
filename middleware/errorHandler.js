@@ -1,5 +1,7 @@
 export default function errorHandler(err, req, res, next) {
-  console.log(err, err.name)
+  // console.log(page)
+  console.log('second test')
+  console.log(err)
   // CastError
   if (err.name === 'CastError') {
     // ! 400 -> bad request
@@ -10,14 +12,15 @@ export default function errorHandler(err, req, res, next) {
     res.status(422).send({ message: "Invalid JSON in your request body." })
     // ValidationError
   } else if (err.name === 'ValidationError') {
+    console.log('test')
     const customError = {}
     for (const key in err.errors) {
       customError[key] = err.errors[key].message
     }
     console.log(customError)
     // ! 422 -> unprocessible entity
-    res.status(422).send({errors: customError})
-    // // res.status(422).send({ message: "your request doesn't meet the correct requirements." })
+    res.status(422).redirect({errors: customError}, res.locals.page) 
+    // .send({errors: customError})
     // Other
   } else {
     // ! 422 -> internal server error

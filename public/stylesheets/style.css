@@ -7,3 +7,22 @@ h1 {
     color: yellow;
     background-color: blue;
 }
+#comment-section{
+    border: solid grey 3px;
+    border-radius: 10px;
+    width: 500px;
+    min-height: 100px;
+}
+
+#comment-input{
+    height: 30px;
+    width: 400px;
+    border-radius: 5px;
+}
+
+.comment{
+    margin: 0px;
+    padding: 1px;
+    border-bottom: 1px solid grey;
+    word-wrap: break-word;
+}

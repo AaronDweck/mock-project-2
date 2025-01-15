@@ -1,6 +1,20 @@
 import mongoose from 'mongoose'
 import uniqueValidator from 'mongoose-unique-validator'
 
+const commentSchema = new mongoose.Schema({
+    content: {
+        type: String,
+        required: [true, "You can't post an empty comment."]
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }
+}, {
+    timestamps: true
+})
+
 const pokemonSchema = new mongoose.Schema({
     number: {
         type: Number,
@@ -42,7 +56,8 @@ const pokemonSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
-    }
+    },
+    comments: [commentSchema]
 })
 
 pokemonSchema.plugin(uniqueValidator)
