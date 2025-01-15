@@ -21,12 +21,19 @@
         <div id="comment-section">
             <% pokemon.comments.forEach(comment => { %>
                 <div>
-                    <% console.log(comment) %>
                     <p class="comment"><%= comment.user.username %>: <%= comment.content %></p>
+                    <% if (loggedIn) {%>
+                        <% if (loggedIn.username === comment.user.username) {%>
+                            <form action="/comment/<%=pokemon.name%>/<%=comment._id%>?_method=DELETE" method="post">
+                                <button type="submit">🗑️</button>
+                            </form>
+                            <button>🖊️</button>
+                        <% } %>
+                    <% } %>
                 </div> 
             <% }) %>
         </div>
-        <form action="/pokemon/<%=pokemon.name%>/add-comment" method="post">
+        <form action="/comment/<%=pokemon.name%>/add-comment" method="post">
             <label for="content">Add comment:</label>
             <textarea name="content" id="comment-input"></textarea>
             <button type="submit">Post</button>

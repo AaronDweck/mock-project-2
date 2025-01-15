@@ -130,6 +130,7 @@ router.route('/pokemon/:pokemonName/update').put(async (req, res, next) => {
 
         res.redirect(`/pokemon/${req.body.name}`)
     } catch (err) {
+        res.locals.page = `/pokemon/${req.body.name}`
         next(err)
     }
 })

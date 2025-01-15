@@ -12,14 +12,14 @@ export default function errorHandler(err, req, res, next) {
     res.status(422).send({ message: "Invalid JSON in your request body." })
     // ValidationError
   } else if (err.name === 'ValidationError') {
-    console.log('test')
     const customError = {}
     for (const key in err.errors) {
       customError[key] = err.errors[key].message
     }
     console.log(customError)
     // ! 422 -> unprocessible entity
-    res.status(422).redirect({errors: customError}, res.locals.page) 
+    console.log(res.locals.page)
+    res.status(422).redirect(res.locals.page) 
     // .send({errors: customError})
     // Other
   } else {

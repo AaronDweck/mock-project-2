@@ -24,7 +24,7 @@ router.route('/user/login').post(async (req, res, next) => {
             req.session.user = user
             res.redirect('/')
         } else {
-            res.send({ message: 'Incorrect login' })
+            res.redirect('/user/login')
         }
     } catch (err) {
         next(err)
