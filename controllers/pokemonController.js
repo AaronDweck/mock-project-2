@@ -38,6 +38,7 @@ router.route('/pokemon').post(async (req, res, next) => {
     }
 })
 
+// route to display all pokemon
 router.route('/pokemon').get(async (req, res, next) => {
     try {
         const allPokemon = await Pokemon.find().sort({ number: 1 })
@@ -51,6 +52,7 @@ router.route('/pokemon').get(async (req, res, next) => {
     }
 })
 
+// route to page for creating a new pokemon
 router.route('/pokemon/new').get(async (req, res, next) => {
     try {
         if (!req.session.user) {
@@ -64,7 +66,7 @@ router.route('/pokemon/new').get(async (req, res, next) => {
     }
 })
 
-// Get a Pokemon by its name
+// route to page of specific pokemon
 router.route('/pokemon/:pokemonName').get(async (req, res, next) => {
     try {
         const pokemonByName = await Pokemon.findOne({ 'name': req.params.pokemonName }).populate('comments.user').populate('user')
@@ -72,9 +74,9 @@ router.route('/pokemon/:pokemonName').get(async (req, res, next) => {
             res.send({ message: "that is an invalid request" })
         }
         let correctTrainer
-        try{
+        try {
             correctTrainer = pokemonByName.user._id.equals(req.session.user._id)
-        } catch (err){
+        } catch (err) {
             correctTrainer = false
         }
 
@@ -89,21 +91,23 @@ router.route('/pokemon/:pokemonName').get(async (req, res, next) => {
     }
 })
 
-// Get a Pokemon by its name
+// route for page to update a pokemon
 router.route('/pokemon/:pokemonName/update').get(async (req, res, next) => {
     try {
         if (!req.session.user) {
             return res.send({ message: 'you must be logged in' })
         }
+
         const pokemonByName = await Pokemon.findOne({ 'name': req.params.pokemonName })
+
         if (!pokemonByName) {
-            res.send({ message: "that is an invalid request" })
-        } else {
-            res.render('pokemon/update.ejs', {
-                pokemon: pokemonByName,
-                loggedIn: req.session.user
-            })
+            return res.send({ message: "that is an invalid request" })
         }
+
+        res.render('pokemon/update.ejs', {
+            pokemon: pokemonByName,
+            loggedIn: req.session.user
+        })
     } catch (err) {
         next(err)
     }
@@ -115,7 +119,9 @@ router.route('/pokemon/:pokemonName/update').put(async (req, res, next) => {
         if (!req.session.user) {
             return res.send({ message: 'you must be logged in' })
         }
+
         const pokemonByName = await Pokemon.findOne({ 'name': req.params.pokemonName }).populate('user')
+
         if (!pokemonByName.user._id.equals(req.session.user._id)) {
             return res.send({ message: 'you arent authorized to make these changes' })
         }
@@ -125,12 +131,13 @@ router.route('/pokemon/:pokemonName/update').put(async (req, res, next) => {
         } else {
             req.body.starter = false;
         }
+
         const pokemonName = req.params.pokemonName
         await Pokemon.updateOne({ 'name': pokemonName }, req.body, { runValidators: true })
 
         res.redirect(`/pokemon/${req.body.name}`)
     } catch (err) {
-        res.locals.page = `/pokemon/${req.body.name}`
+        res.locals.page = `/pokemon/${req.params.pokemonName}/update`
         next(err)
     }
 })
@@ -145,7 +152,7 @@ router.route('/pokemon/:pokemonName').delete(async (req, res, next) => {
         if (!pokemonByName.user._id.equals(req.session.user._id)) {
             return res.send({ message: 'you arent authorized to make these changes' })
         }
-        
+
         await Pokemon.deleteOne({ 'name': req.params.pokemonName })
 
         res.redirect('/pokemon')

@@ -1,8 +1,12 @@
 <%- include('../partials/html-head') %>
 <%- include('../partials/nav', {loggedIn: loggedIn}) %>
-    <form action="/pokemon/<%=pokemon.name%>/update?_method=PUT" method="post">
-        <label for="number">Number:</label>
-        <input type="text" name="number" value="<%= pokemon.number %>">
+    <h1>Update <%=pokemon.name %></h1>
+    <form class="form create" action="/pokemon/<%=pokemon.name%>/update?_method=PUT" method="post">
+        <div class="field">
+            <label for="number">Number:</label>
+            <input type="text" name="number" value="<%= pokemon.number %>">
+        </div>
+
         <label for="name">Name:</label>
         <input type="text" name="name" value="<%= pokemon.name %>">
         <label for="type">Type:</label>

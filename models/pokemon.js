@@ -19,13 +19,12 @@ const pokemonSchema = new mongoose.Schema({
     number: {
         type: Number,
         required: true,
-        unique: true,
+        unique: [true, 'that number is already in use'],
         cast: 'Please enter a valid number.'
     },
     name: {
         type: String,
         required: true,
-        unique: true,
         validate: {
             validator: function (value) {
                 return isNaN(value)

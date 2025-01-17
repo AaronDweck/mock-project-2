@@ -1,10 +1,10 @@
 <%- include('../partials/html-head') %>
 <%- include('../partials/nav', {loggedIn: loggedIn}) %>
     <h1>Pokemon</h1>
-    <ol>
+    <ol class="all-pokemon">
         <% allPokemon.forEach(pokemon => { %>
-            <li>
-                <a href="/pokemon/<%= pokemon.name %>">
+            <li class="pokemon">
+                <a class="pokemon-link" href="/pokemon/<%= pokemon.name %>">
                     <%= pokemon.name %>
                 </a>
             </li>
