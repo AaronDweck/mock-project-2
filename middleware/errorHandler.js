@@ -19,7 +19,7 @@ export default function errorHandler(err, req, res, next) {
     console.log(customError)
     // ! 422 -> unprocessible entity
     console.log(res.locals.page)
-    res.status(422).redirect(res.locals.page) 
+    res.status(422).redirect(res.locals.page)
     // .send({errors: customError})
     // Other
   } else {

@@ -2,13 +2,13 @@
 <%- include('../partials/nav', {loggedIn: loggedIn}) %>
     <h1>Pokemon</h1>
     <ol class="all-pokemon">
-        <% allPokemon.forEach(pokemon => { %>
+        <% allPokemon.forEach(pokemon=> { %>
             <li class="pokemon">
                 <a class="pokemon-link" href="/pokemon/<%= pokemon.name %>">
                     <%= pokemon.name %>
                 </a>
             </li>
-        <% }) %>
+            <% }) %>
     </ol>
 </body>
 </html>
